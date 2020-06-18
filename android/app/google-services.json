@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "186842423504",
+    "firebase_url": "https://loja-virtual-gibagyte.firebaseio.com",
+    "project_id": "loja-virtual-gibagyte",
+    "storage_bucket": "loja-virtual-gibagyte.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186842423504:android:ffd1ae11c0df9eb48d7ed5",
+        "android_client_info": {
+          "package_name": "br.com.gibagyte.lojavirtualgigabyte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186842423504-psiigo3td6s70dblvlcng5bdum46q636.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcrYhn42pPJ6VmkJ9V4_56k2Rc05B8g58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186842423504-psiigo3td6s70dblvlcng5bdum46q636.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "186842423504-0o8qpbf82u4r1csu39jpd73stu4v5oph.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.gibagyte.lojavirtualgigabyte"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
