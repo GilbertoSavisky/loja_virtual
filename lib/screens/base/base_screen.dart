@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/custom_drawer.dart';
 import 'package:lojavirtualgigabyte/models/page_manager.dart';
+import 'package:lojavirtualgigabyte/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatelessWidget {
@@ -14,10 +15,7 @@ class BaseScreen extends StatelessWidget {
         controller: pageController,
         physics: NeverScrollableScrollPhysics(),
         children: [
-          Scaffold(
-            drawer: CustomDrawer(),
-            appBar: AppBar(title: Text('Home')),
-          ),
+          LoginScreen(),
           Scaffold(
             drawer: CustomDrawer(),
             appBar: AppBar(title: Text('Produtos')),
