@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualgigabyte/models/produto_manager.dart';
 import 'package:lojavirtualgigabyte/models/user_manager.dart';
 import 'package:lojavirtualgigabyte/screens/base/base_screen.dart';
 import 'package:lojavirtualgigabyte/screens/login/login_screen.dart';
@@ -12,8 +13,17 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => UserManager(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserManager(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProdutoManager(),
+          lazy: false,
+        )
+      ],
       child: MaterialApp(
         title: 'Loja do Daniel',
         debugShowCheckedModeBanner: false,
@@ -28,14 +38,18 @@ class MyApp extends StatelessWidget {
         initialRoute: '/base',
         onGenerateRoute: (settings){
           switch(settings.name){
+            case '/login':
+              return MaterialPageRoute(
+                  builder: (_) => LoginScreen()
+              );
             case '/signup':
               return MaterialPageRoute(
-                builder: (_) => SignUpScreen()
+                  builder: (_) => SignUpScreen()
               );
             case '/base':
             default:
               return MaterialPageRoute(
-                builder: (_) => BaseScreen()
+                  builder: (_) => BaseScreen()
               );
           }
         },
