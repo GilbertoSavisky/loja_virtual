@@ -1,7 +1,9 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
+import 'package:lojavirtualgigabyte/models/user_manager.dart';
 import 'package:lojavirtualgigabyte/screens/produto/componentes/tamanho_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +45,7 @@ class ProdutoScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     produto.nome, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -85,6 +87,30 @@ class ProdutoScreen extends StatelessWidget {
                       TamanhoWidget(tamanho: t),
                     ).toList(),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  if(produto.temEstoque)
+                    Consumer2<UserManager, Produto>(
+                      builder: (_, userManager, produto, __){
+                        return SizedBox(height: 44,
+                          child: RaisedButton(
+                            onPressed: produto.tamanhoSelecionado !=null ? (){
+                              if(userManager.isLoggedin){
+                                context.read<CarrinhoManager>().addAoCarrinho(produto);
+                                Navigator.of(context).pushNamed('/carrinho');
+                              }
+                                else
+                                  Navigator.of(context).pushNamed('/login');
+                            } : null,
+                            color: primaryColor,
+                            textColor: Colors.white,
+                            child: Text(userManager.isLoggedin ? 'Adicionar ao carrinho' : 'Entre para Comprar', style: const TextStyle(fontSize: 18),),
+                          ),
+                        );
+                      },
+                    ),
                 ],
               ),
             ),

@@ -26,4 +26,21 @@ class Produto extends ChangeNotifier {
     notifyListeners();
   }
 
+  int get totalEstoque {
+    int estoque = 0;
+    for(final tamanho in tamanhos){
+      estoque += tamanho.estoque;
+    }
+    return estoque;
+  }
+
+  ItemTamanho findTamanho(String nome){
+    try {
+      return tamanhos.firstWhere((t) => t.nome == nome);
+    } catch(e){
+      return null;
+    }
+  }
+
+  bool get temEstoque => totalEstoque > 0;
 }

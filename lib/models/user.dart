@@ -11,6 +11,7 @@ class User{
   String confirmSenha;
 
   DocumentReference get firestoreRef => Firestore.instance.document('users/$id');
+  CollectionReference get carrinhoRef => firestoreRef.collection('carrinho');
 
   User.FromDocument(DocumentSnapshot doc){
     id = doc.documentID;

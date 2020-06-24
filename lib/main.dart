@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/models/produto_manager.dart';
 import 'package:lojavirtualgigabyte/models/user_manager.dart';
 import 'package:lojavirtualgigabyte/screens/base/base_screen.dart';
+import 'package:lojavirtualgigabyte/screens/carrinho/carrinho_screen.dart';
 import 'package:lojavirtualgigabyte/screens/login/login_screen.dart';
 import 'package:lojavirtualgigabyte/screens/produto/produto_screen.dart';
 import 'package:lojavirtualgigabyte/screens/signup/signup_screen.dart';
@@ -24,7 +26,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProdutoManager(),
           lazy: false,
-        )
+        ),
+        ProxyProvider<UserManager, CarrinhoManager>(
+          create: (_) => CarrinhoManager(),
+          lazy: false,
+          update: (_, userManager, carrinhoManager) =>
+            carrinhoManager..updateUser(userManager),
+        ),
       ],
       child: MaterialApp(
         title: 'Loja do Daniel',
@@ -47,6 +55,10 @@ class MyApp extends StatelessWidget {
             case '/signup':
               return MaterialPageRoute(
                   builder: (_) => SignUpScreen()
+              );
+            case '/carrinho':
+              return MaterialPageRoute(
+                  builder: (_) => CarrinhoScreen()
               );
             case '/produto':
               return MaterialPageRoute(
