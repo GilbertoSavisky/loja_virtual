@@ -25,7 +25,7 @@ class DrawerTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Icon(
-                iconData, size: 32,
+                iconData, size: 30,
                 color: curPage == page ? primaryColor : Colors.grey[700],),
             ),
             Text(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualgigabyte/models/admin_users_manager.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
+import 'package:lojavirtualgigabyte/models/home_manager.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/models/produto_manager.dart';
 import 'package:lojavirtualgigabyte/models/user_manager.dart';
@@ -27,15 +29,24 @@ class MyApp extends StatelessWidget {
           create: (_) => ProdutoManager(),
           lazy: false,
         ),
-        ProxyProvider<UserManager, CarrinhoManager>(
+        ChangeNotifierProvider(
+          create: (_) => HomeManager(),
+          lazy: false,
+        ),
+        ChangeNotifierProxyProvider<UserManager, CarrinhoManager>(
           create: (_) => CarrinhoManager(),
           lazy: false,
           update: (_, userManager, carrinhoManager) =>
             carrinhoManager..updateUser(userManager),
         ),
+        ChangeNotifierProxyProvider<UserManager, AdminUsersManager>(
+          create: (_) => AdminUsersManager(),
+          lazy: false,
+          update: (_, userMamanger, adminUsersManager) => adminUsersManager..updateUser(userMamanger),
+        ),
       ],
       child: MaterialApp(
-        title: 'Loja do Daniel',
+        title: 'Loja do Gib@Gyte',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: const Color.fromARGB(255, 4, 125, 141),

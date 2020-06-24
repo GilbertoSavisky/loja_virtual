@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
+import 'package:lojavirtualgigabyte/models/secao_item.dart';
 
 class ProdutoManager extends ChangeNotifier{
 
@@ -35,6 +36,14 @@ class ProdutoManager extends ChangeNotifier{
     final QuerySnapshot snapProdutos = await firestore.collection('produtos').getDocuments();
     todosProdutos = snapProdutos.documents.map((d) => Produto.fromDocumento(d)).toList();
     notifyListeners();
+  }
+
+  Produto findProdutoById(String id) {
+    try {
+      return todosProdutos.firstWhere((element) => element.id == id);
+    } catch (e){
+      return null;
+    }
   }
 }
 

@@ -9,6 +9,7 @@ class User{
   String email;
   String senha;
   String confirmSenha;
+  bool admin = false;
 
   DocumentReference get firestoreRef => Firestore.instance.document('users/$id');
   CollectionReference get carrinhoRef => firestoreRef.collection('carrinho');

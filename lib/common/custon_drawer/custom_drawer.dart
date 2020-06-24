@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/custom_drawer_header.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/drawer_tile.dart';
+import 'package:lojavirtualgigabyte/models/user_manager.dart';
+import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -24,10 +28,23 @@ class CustomDrawer extends StatelessWidget {
             children: [
               CustomDrawerHeader(),
               const Divider(),
-              DrawerTile(iconData: Icons.home, titulo: 'Início', page: 0,),
-              DrawerTile(iconData: Icons.list, titulo: 'Produtos', page: 1,),
-              DrawerTile(iconData: Icons.playlist_add_check, titulo: 'Meus Pedidos', page: 2,),
-              DrawerTile(iconData: Icons.location_on, titulo: 'Lojas', page: 3,),
+              DrawerTile(iconData: FontAwesome5.store, titulo: 'Início', page: 0,),
+              DrawerTile(iconData: FontAwesome5.cart_arrow_down, titulo: 'Produtos', page: 1,),
+              DrawerTile(iconData: FontAwesome5.clipboard_check, titulo: 'Meus Pedidos', page: 2,),
+              DrawerTile(iconData: FontAwesome5.map_marked_alt, titulo: 'Lojas', page: 3,),
+              Consumer<UserManager>(
+                builder: (_, userManager, __){
+                  if(userManager.adminHabilitado){
+                    return Column(
+                      children: [
+                        Divider(),
+                        DrawerTile(iconData: FontAwesome5.users_cog, titulo: 'Usuários', page: 4,),
+                        DrawerTile(iconData:  FontAwesome5.dolly, titulo: 'Pedidos', page: 5,),
+                      ],
+                    );
+                  } else return Container();
+                },
+              ),
             ],
           ),
         ],

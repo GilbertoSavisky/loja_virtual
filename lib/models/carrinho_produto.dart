@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualgigabyte/models/item_tamanho.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 
-class CarrinhoProduto{
+class CarrinhoProduto extends ChangeNotifier{
   CarrinhoProduto.fromProduto(this.produto){
     produtoId = produto.id;
     quantidade = 1;
@@ -11,17 +11,19 @@ class CarrinhoProduto{
   }
 
   CarrinhoProduto.fromDocumento(DocumentSnapshot documento){
+    id = documento.documentID;
     produtoId = documento.data['produtoId'] as String;
     quantidade = documento.data['quantidade'] as int;
     tamanho = documento.data['tamanho'] as String;
     
-    firestore.document('produtos/$produtoId').get().then((value) =>
-      produto = Produto.fromDocumento(value)
-    );
+    firestore.document('produtos/$produtoId').get().then((value) {
+      produto = Produto.fromDocumento(value);
+      notifyListeners();
+    });
   }
 
   final Firestore firestore = Firestore.instance;
-
+  String id;
   String produtoId;
   int quantidade;
   String tamanho;
@@ -38,6 +40,8 @@ class CarrinhoProduto{
     return itemTamanho?.preco ?? 0;
   }
 
+  num get precoTotal => precoUnico * quantidade;
+
   Map<String, dynamic> carrinhoItemMap(){
     return{
       'produtoId': produtoId,
@@ -45,4 +49,24 @@ class CarrinhoProduto{
       'tamanho': tamanho
     };
   }
+
+  bool podeJuntarItem(Produto produto){
+    return produto.id == produtoId && produto.tamanhoSelecionado.nome == tamanho;
+  }
+
+  void incrementar(){
+    quantidade++;
+    notifyListeners();
+  }
+  void decrementar(){
+    quantidade--;
+    notifyListeners();
+  }
+
+  bool get temEstoque {
+    final tamanho = itemTamanho;
+    if(tamanho == null) return false;
+    return tamanho.estoque >= quantidade;
+  }
+
 }
