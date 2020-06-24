@@ -24,6 +24,8 @@ class CarrinhoManager{
   }
 
   void addAoCarrinho(Produto produto){
-    itens.add(CarrinhoProduto.fromProduto(produto));
+    final carrinhoProduto = CarrinhoProduto.fromProduto(produto);
+    itens.add(carrinhoProduto);
+    user.carrinhoRef.add(carrinhoProduto.carrinhoItemMap());
   }
 }

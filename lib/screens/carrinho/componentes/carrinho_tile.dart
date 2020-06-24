@@ -31,7 +31,7 @@ class CarrinhoTile extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text('Tamanho', style: TextStyle(fontWeight: FontWeight.bold),),
+                      child: Text('Tamanho: ${carrinhoProduto.tamanho}', style: TextStyle(fontWeight: FontWeight.bold),),
                     ),
                     Text('R\$ ${carrinhoProduto.precoUnico.toStringAsFixed(2)}',
                       style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),

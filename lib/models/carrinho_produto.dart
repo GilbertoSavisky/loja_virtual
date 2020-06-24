@@ -37,4 +37,12 @@ class CarrinhoProduto{
     if(produto == null) return 0;
     return itemTamanho?.preco ?? 0;
   }
+
+  Map<String, dynamic> carrinhoItemMap(){
+    return{
+      'produtoId': produtoId,
+      'quantidade': quantidade,
+      'tamanho': tamanho
+    };
+  }
 }
