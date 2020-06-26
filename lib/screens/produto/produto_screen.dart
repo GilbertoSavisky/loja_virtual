@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/models/user_manager.dart';
@@ -23,6 +24,20 @@ class ProdutoScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(produto.nome, overflow: TextOverflow.ellipsis, maxLines: 1,),
           centerTitle: true,
+          actions: [
+            Consumer<UserManager>(
+              builder: (_, userManager, __){
+                if(userManager.adminHabilitado){
+                  return IconButton(
+                    icon: Icon(FontAwesome5.edit),
+                    onPressed: (){
+                      Navigator.of(context).pushReplacementNamed('/editar_produto', arguments: produto);
+                    },
+                  );
+                } else return Container();
+              },
+            ),
+          ],
         ),
         backgroundColor: Colors.white,
 
