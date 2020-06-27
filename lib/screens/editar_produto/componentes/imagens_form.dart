@@ -63,7 +63,7 @@ class ImagensForm extends StatelessWidget {
                   Material(
                     color: Colors.grey[100],
                     child: IconButton(
-                      icon: Icon(Icons.add_a_photo),
+                      icon: Icon(Icons.add_photo_alternate),
                       color: primaryColor,
                       iconSize: 50,
                       onPressed: (){

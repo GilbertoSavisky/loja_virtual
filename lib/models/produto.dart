@@ -43,4 +43,14 @@ class Produto extends ChangeNotifier {
   }
 
   bool get temEstoque => totalEstoque > 0;
+
+  num get precoBase {
+    num menorPreco = double.infinity;
+    for(final tamanho in tamanhos){
+      if(tamanho.preco < menorPreco && tamanho.temEstoque){
+        menorPreco = tamanho.preco;
+      }
+      return menorPreco;
+    }
+  }
 }

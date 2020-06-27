@@ -37,7 +37,7 @@ class ProdutoListTile extends StatelessWidget {
                       padding: EdgeInsets.only(top: 4),
                       child: Text('A partir de', style: TextStyle(fontSize: 12, color: Colors.grey[400]),),
                     ),
-                    Text('R\$ 19.99', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor),)
+                    Text('R\$ ${produto.precoBase}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor),)
                   ],
                 ),
               ),

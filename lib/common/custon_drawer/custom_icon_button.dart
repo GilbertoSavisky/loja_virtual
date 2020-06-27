@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CustonIconButton extends StatelessWidget {
+class CustomIconButton extends StatelessWidget {
 
   final IconData iconData;
   final Color color;
   final VoidCallback onTap;
+  final double tamanho;
 
-  const CustonIconButton({this.iconData, this.color, this.onTap});
+  const CustomIconButton({this.iconData, this.color, this.onTap, this.tamanho});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,8 @@ class CustonIconButton extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             child: Icon(
               iconData,
-              color: color,
+              color: onTap != null ? color : Colors.grey[400],
+              size: tamanho,
             ),
           ),
         ),

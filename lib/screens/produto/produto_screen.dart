@@ -69,7 +69,7 @@ class ProdutoScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 8),
                     child: Text('A partir de', style: TextStyle(fontSize: 13, color: Colors.grey[600]),),
                   ),
-                  Text('R\$ 19.99', style: TextStyle(fontSize: 22, color: primaryColor, fontWeight: FontWeight.bold),),
+                  Text('R\$ ${produto.precoBase.toStringAsFixed(2)}', style: TextStyle(fontSize: 22, color: primaryColor, fontWeight: FontWeight.bold),),
                   Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 8),
                     child: Text('Descrição', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),

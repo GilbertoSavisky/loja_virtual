@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/elusive_icons.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/screens/editar_produto/componentes/imagens_form.dart';
+import 'package:lojavirtualgigabyte/screens/editar_produto/componentes/tamanho_form.dart';
 
 class EditarProduto extends StatelessWidget {
 
@@ -13,6 +14,8 @@ class EditarProduto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Editar Anúncio'),
@@ -42,6 +45,34 @@ class EditarProduto extends StatelessWidget {
                         return 'Título muito curto';
                     },
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Text('A partir de', style: TextStyle(fontSize: 13, color: Colors.grey[600]),),
+                  ),
+                  Text('R\$ ...', style: TextStyle(fontSize: 22, color: primaryColor, fontWeight: FontWeight.bold),),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16, ),
+                    child: Text('Descrição', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
+                  ),
+                  TextFormField(
+                    initialValue: produto.descricao,
+                    style: TextStyle(
+                      fontSize: 16
+                    ),
+                    decoration: InputDecoration(
+                      hintText: 'Descrição',
+                      border: InputBorder.none,
+                    ),
+                    maxLines: null,
+                    validator: (desc){
+                      if(desc.length < 10){
+                        return 'Descrição muito curta!';
+                      }
+                      else
+                        return null;
+                    },
+                  ),
+                  TamanhosForm(produto),
                   RaisedButton(
                     onPressed: (){
                       if(fromKey.currentState.validate())

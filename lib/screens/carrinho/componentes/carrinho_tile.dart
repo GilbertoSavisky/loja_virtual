@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/custon_icon_button.dart';
+import 'package:lojavirtualgigabyte/common/custon_drawer/custom_icon_button.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_produto.dart';
 import 'package:provider/provider.dart';
 
@@ -55,13 +55,13 @@ class CarrinhoTile extends StatelessWidget {
                 builder: (_, carrinhoProduto, __){
                   return Column(
                     children: [
-                      CustonIconButton(
+                      CustomIconButton(
                         iconData: Icons.add,
                         color: Theme.of(context).primaryColor,
                         onTap: carrinhoProduto.incrementar,
                       ),
                       Text('${carrinhoProduto.quantidade}', style: const TextStyle(fontSize: 20),),
-                      CustonIconButton(
+                      CustomIconButton(
                         iconData: Icons.remove,
                         color: carrinhoProduto.quantidade > 1 ? Theme.of(context).primaryColor : Colors.red,
                         onTap: carrinhoProduto.decrementar,

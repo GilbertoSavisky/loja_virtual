@@ -3,6 +3,8 @@ class ItemTamanho{
   num preco;
   int estoque;
 
+  ItemTamanho();
+
   ItemTamanho.fromMap(Map<String, dynamic> map){
     nome = map['nome'] as String;
     preco = map['preco'] as num;
