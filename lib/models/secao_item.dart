@@ -5,6 +5,15 @@ class SecaoItem {
     produto = map['produto'] as String;
   }
 
-  String image;
+  SecaoItem({this.produto, this.image});
+
+  dynamic image;
   String produto;
+
+  SecaoItem clone(){
+    return SecaoItem(
+      image: image,
+      produto: produto
+    );
+  }
 }

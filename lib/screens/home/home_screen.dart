@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/custom_drawer.dart';
 import 'package:lojavirtualgigabyte/models/home_manager.dart';
+import 'package:lojavirtualgigabyte/models/user_manager.dart';
+import 'package:lojavirtualgigabyte/screens/home/componentes/add_secao_widget.dart';
 import 'package:lojavirtualgigabyte/screens/home/componentes/secao_lista.dart';
 import 'package:lojavirtualgigabyte/screens/home/componentes/secao_staggered.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +46,43 @@ class HomeScreen extends StatelessWidget {
                       Navigator.of(context).pushNamed('/carrinho');
                     },
                   ),
+                  Consumer2<UserManager, HomeManager>(
+                    builder: (_, userManager, homeManager, __){
+                      if(userManager.adminHabilitado){
+                        if(homeManager.editando){
+                          return PopupMenuButton(
+                            itemBuilder: (_){
+                              return ['Salvar', 'Descartar'].map((e) {
+                                return PopupMenuItem(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Icon(e == 'Salvar' ? FontAwesome5.check_circle : FontAwesome5.redo_alt, color: Theme.of(context).primaryColor,),
+                                      Text(e),
+                                    ],
+                                  ),
+                                  value: e,
+                                );
+                              }).toList();
+                            },
+                            onSelected: (e) {
+                              if(e == 'Salvar'){
+                                homeManager.salvarEdicao();
+                              }
+                              else {
+                                homeManager.descartarEdicao();
+                              }
+                            },
+                          );
+                        } else {
+                          return IconButton(
+                            icon: Icon(FontAwesome5.edit),
+                            onPressed: homeManager.entrarEdicao,
+                          );
+                        }
+                      } else return Container();
+                    },
+                  ),
                 ],
               ),
               Consumer<HomeManager>(
@@ -58,6 +97,10 @@ class HomeScreen extends StatelessWidget {
                         return Container();
                     }
                   }).toList();
+
+                  if(homeManager.editando)
+                    children.add(AddSecaoWidget());
+
                   return SliverList(
                     delegate: SliverChildListDelegate(children),
                   );

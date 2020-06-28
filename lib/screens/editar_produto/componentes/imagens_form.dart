@@ -28,6 +28,7 @@ class ImagensForm extends StatelessWidget {
       },
       onSaved: (imagens) => produto.novasImagens = imagens,
       builder: (state){
+
         void onImageSelected(File file){
           state.value.add(file);
           state.didChange(state.value);
