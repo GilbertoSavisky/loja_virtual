@@ -14,7 +14,14 @@ class TamanhosForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormField<List<ItemTamanho>>(
-      initialValue: List.from(produto.tamanhos),
+      initialValue: produto.tamanhos,
+      validator: (tamanhos){
+        if(tamanhos.isEmpty){
+          return 'Insira um tamanho';
+        }
+        else
+          return null;
+      },
       builder: (state){
         return Column(
           children: [
@@ -56,6 +63,11 @@ class TamanhosForm extends StatelessWidget {
                 );
               }).toList(),
             ),
+            if(state.hasError)
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(state.errorText, style: TextStyle(color: Colors.red, fontSize: 12),),
+              ),
           ],
         );
       },

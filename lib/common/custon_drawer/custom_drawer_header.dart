@@ -15,7 +15,7 @@ class CustomDrawerHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround  ,
             children: [
-              Text('Loja do \nGib@Gyte', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),),
+              Text('Loja de \nPeças Íntimas', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),),
               Text('Olá ${userManager.user?.nome ?? ''}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,

@@ -3,7 +3,7 @@ class ItemTamanho{
   num preco;
   int estoque;
 
-  ItemTamanho();
+  ItemTamanho({this.nome, this.preco, this.estoque});
 
   ItemTamanho.fromMap(Map<String, dynamic> map){
     nome = map['nome'] as String;
@@ -12,6 +12,22 @@ class ItemTamanho{
   }
 
   bool get temEstoque => estoque > 0;
+
+  ItemTamanho clone(){
+    return ItemTamanho(
+      nome: nome,
+      estoque: estoque,
+      preco: preco,
+    );
+  }
+
+  Map<String, dynamic> toMap(){
+    return {
+      'nome': nome,
+      'preco': preco,
+      'estoque': estoque
+    };
+  }
 
   @override
   String toString() {

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/custom_icon_button.dart';
@@ -24,6 +25,13 @@ class EditItemTamanho extends StatelessWidget {
               labelText: 'Título',
               isDense: true,
             ),
+            validator: (nome){
+              if(nome.isEmpty)
+                return 'inválido';
+              else
+                return null;
+            },
+            onChanged: (nome) => tamanho.nome = nome,
           ),
         ),
         SizedBox(width: 4,),
@@ -36,6 +44,14 @@ class EditItemTamanho extends StatelessWidget {
               isDense: true,
             ),
             keyboardType: TextInputType.number,
+            validator: (estoque){
+              if(int.tryParse(estoque) == null)
+                return 'Inválido';
+              else
+                return null;
+            },
+            onChanged: (estoque) => tamanho.estoque = int.tryParse(estoque),
+
           ),
         ),
         SizedBox(width: 4,),
@@ -49,6 +65,15 @@ class EditItemTamanho extends StatelessWidget {
               prefix: Text ('R\$ '),
             ),
             keyboardType: TextInputType.numberWithOptions(decimal: true),
+            validator: (preco){
+              if(num.tryParse(preco) == null)
+                return 'Inválido';
+              else
+                return null;
+
+            },
+            onChanged: (preco) => tamanho.preco = num.tryParse(preco),
+
           ),
         ),
         CustomIconButton(

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
-import 'package:lojavirtualgigabyte/models/secao_item.dart';
 
 class ProdutoManager extends ChangeNotifier{
 
@@ -44,6 +43,12 @@ class ProdutoManager extends ChangeNotifier{
     } catch (e){
       return null;
     }
+  }
+
+  void update(Produto produto){
+    todosProdutos.removeWhere((element) => element.id == produto.id);
+    todosProdutos.add(produto);
+    notifyListeners();
   }
 }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/custom_drawer.dart';
 import 'package:lojavirtualgigabyte/models/produto_manager.dart';
+import 'package:lojavirtualgigabyte/models/user_manager.dart';
 import 'package:lojavirtualgigabyte/screens/produtos/componentes/dialogo_pesquisa.dart';
 import 'package:lojavirtualgigabyte/screens/produtos/componentes/produto_list_tile.dart';
 import 'package:provider/provider.dart';
@@ -60,6 +62,18 @@ class ProdutosScreen extends StatelessWidget {
                   },
                 );
               }
+            },
+          ),
+          Consumer<UserManager>(
+            builder: (_, userManager, __){
+              if(userManager.adminHabilitado){
+                return IconButton(
+                  icon: Icon(FontAwesome5.plus),
+                  onPressed: (){
+                    Navigator.of(context).pushNamed('/editar_produto');
+                  },
+                );
+              } else return Container();
             },
           )
         ],

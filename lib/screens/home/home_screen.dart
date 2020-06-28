@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                 floating: true,
                 backgroundColor: Colors.transparent,
                 flexibleSpace: const FlexibleSpaceBar(
-                  title: Text('Loja do Gib@Gyte'),
+                  title: Text('Loja de Peças Íntimas'),
                   centerTitle: true,
                 ),
                 elevation: 0,
