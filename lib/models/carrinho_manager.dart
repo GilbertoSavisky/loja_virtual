@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_produto.dart';
+import 'package:lojavirtualgigabyte/models/cepaberto_endereco.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/models/user.dart';
 import 'package:lojavirtualgigabyte/models/user_manager.dart';
+import 'package:lojavirtualgigabyte/services/cep_aberto_service.dart';
 
 class CarrinhoManager extends ChangeNotifier {
 
@@ -72,5 +74,13 @@ class CarrinhoManager extends ChangeNotifier {
       if(!carrinhoProduto.temEstoque) return false;
     }
     return true;
+  }
+
+  // Endereço
+  void getEndereco(String cep) async {
+    final cepAbertoService = CepAbertoService();
+    try {
+      final endereco = await cepAbertoService.getEnderecoFromCep(cep);
+    } catch(e){}
   }
 }

@@ -20,7 +20,9 @@ class CarrinhoScreen extends StatelessWidget {
                 children: carrinhoManger.itens.map((carrinhoProduto) => CarrinhoTile(carrinhoProduto)).toList(),
               ),
               PrecoCard(
-                onPressed: carrinhoManger.isCarrinhoValido ? (){} : null,
+                onPressed: carrinhoManger.isCarrinhoValido ? (){
+                  Navigator.of(context).pushNamed('/endereco');
+                } : null,
                 textoBotao: 'Continuar para a Entrega',
               ),
             ],

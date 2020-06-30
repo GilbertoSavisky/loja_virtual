@@ -7,14 +7,16 @@ class HomeManager extends ChangeNotifier {
     _carregarSecaoes();
   }
 
-  List<Secao> _secoes = [];
+  final List<Secao> _secoes = [];
   List<Secao> _secoesEditando = [];
 
   bool editando = false;
+  bool loading = false;
+
   final Firestore firestore = Firestore.instance;
 
   Future<void> _carregarSecaoes() async {
-    await firestore.collection('home').snapshots().listen((event) {
+    await firestore.collection('home').orderBy('pos').snapshots().listen((event) {
       _secoes.clear();
       for(final DocumentSnapshot documento in event.documents){
         _secoes.add(Secao.fromDocumento(documento));
@@ -42,10 +44,33 @@ class HomeManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void salvarEdicao(){
+  Future<void> salvarEdicao() async {
+    bool valido = true;
+    for(final sec in _secoesEditando){
+      if(!sec.valid())
+        valido = false;
+    }
+    if(!valido) return;
+
+    loading = true;
+    notifyListeners();
+    int pos = 0;
+
+    for(final secao in _secoesEditando){
+      await secao.salvar(pos);
+      pos++;
+    }
+
+    for(final secao in List.from(_secoes)){
+      if(!_secoesEditando.any((element) => element.id == secao.id)){
+        await secao.delete();
+      }
+    }
+    loading = false;
     editando = false;
     notifyListeners();
   }
+
   void descartarEdicao(){
     editando = false;
     notifyListeners();

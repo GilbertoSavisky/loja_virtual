@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/custom_drawer_header.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/drawer_tile.dart';
 import 'package:lojavirtualgigabyte/models/user_manager.dart';

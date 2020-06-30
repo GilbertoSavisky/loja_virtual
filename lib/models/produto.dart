@@ -72,8 +72,8 @@ class Produto extends ChangeNotifier {
       if(tamanho.preco < menorPreco && tamanho.temEstoque){
         menorPreco = tamanho.preco;
       }
-      return menorPreco;
     }
+    return menorPreco;
   }
 
   Produto clone(){

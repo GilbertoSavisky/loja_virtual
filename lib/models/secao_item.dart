@@ -5,6 +5,12 @@ class SecaoItem {
     produto = map['produto'] as String;
   }
 
+  Map<String, dynamic> toMap(){
+    return {
+      'image': image,
+      'produto': produto
+    };
+}
   SecaoItem({this.produto, this.image});
 
   dynamic image;

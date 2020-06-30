@@ -28,6 +28,7 @@ class SecaoStaggered extends StatelessWidget {
             Consumer<Secao>(
               builder: (_, sec, __){
                 return StaggeredGridView.countBuilder(
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   crossAxisCount: 4,

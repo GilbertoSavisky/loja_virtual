@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttericon/elusive_icons.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/models/produto_manager.dart';
 import 'package:lojavirtualgigabyte/screens/editar_produto/componentes/imagens_form.dart';
@@ -99,7 +98,7 @@ class EditarProduto extends StatelessWidget {
                             } : null,
                             child: produto.loading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white),) : Text('Salvar', style: TextStyle(fontSize: 18),),
                             color: Theme.of(context).primaryColor,
-                            disabledColor: Theme.of(context).primaryColor.withBlue(100),//TODO verificar
+                            disabledColor: Theme.of(context).primaryColor.withAlpha(100),
                             textColor: Colors.white,
                           ),
                         );

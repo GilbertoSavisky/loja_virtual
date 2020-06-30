@@ -26,7 +26,7 @@ class AdminUsersManager extends ChangeNotifier {
 
     _subscription = firestore.collection('users').snapshots().listen((event) {
       users = event.documents.map((e) =>
-       User.FromDocument(e)).toList();
+       User.fromDocument(e)).toList();
       users.sort((a, b) => a.nome.toLowerCase().compareTo(b.nome.toLowerCase()));
       notifyListeners();
     });

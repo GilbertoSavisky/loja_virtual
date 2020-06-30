@@ -14,27 +14,37 @@ class SecaoHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeManager = context.watch<HomeManager>();
     if(homeManager.editando){
-      return Row(
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: TextFormField(
-              initialValue: secao.nome,
-              decoration: InputDecoration(
-                hintText: 'Título',
-                isDense: true,
-                border: InputBorder.none
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  initialValue: secao.nome,
+                  decoration: InputDecoration(
+                    hintText: 'Título',
+                    isDense: true,
+                    border: InputBorder.none
+                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white),
+                  onChanged: (texto) => secao.nome = texto,
+                ),
               ),
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white),
-              onChanged: (texto) => secao.nome = texto,
+              CustomIconButton(
+                iconData: FontAwesome5.trash_alt,
+                color: Theme.of(context).primaryColor,
+                onTap: (){
+                  homeManager.removeSecao(secao);
+                },
+              ),
+            ],
+          ),
+          if(secao.error != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(secao.error, style: TextStyle(color: Colors.red, fontWeight: FontWeight.w800),),
             ),
-          ),
-          CustomIconButton(
-            iconData: FontAwesome5.trash_alt,
-            color: Theme.of(context).primaryColor,
-            onTap: (){
-              homeManager.removeSecao(secao);
-            },
-          ),
         ],
       );
     }

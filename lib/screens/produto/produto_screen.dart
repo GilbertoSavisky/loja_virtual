@@ -79,7 +79,7 @@ class ProdutoScreen extends StatelessWidget {
                       overflow: Overflow.clip,
                       children: [
                         FlatButton(
-                          child: Text('mais'),
+                          child: Text('mais'),//TODO: implementar ler mais
                         ),
                         Container(
                           child: Text(produto.descricao,

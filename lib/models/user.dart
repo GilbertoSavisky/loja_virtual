@@ -14,7 +14,7 @@ class User{
   DocumentReference get firestoreRef => Firestore.instance.document('users/$id');
   CollectionReference get carrinhoRef => firestoreRef.collection('carrinho');
 
-  User.FromDocument(DocumentSnapshot doc){
+  User.fromDocument(DocumentSnapshot doc){
     id = doc.documentID;
     nome = doc.data['nome'] as String;
     email = doc.data['email']as String;

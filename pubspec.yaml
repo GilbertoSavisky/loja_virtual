@@ -21,6 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  brasil_fields: ^0.2.0
+  dio: ^3.0.9
   uuid: ^2.1.0
   image_picker: ^0.6.7+2
   image_cropper: ^1.2.3
