@@ -13,6 +13,8 @@ class PrecoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final carrinhoManager = context.watch<CarrinhoManager>();
     final precoProdutos = carrinhoManager.precoProdutos;
+    final precoEntrega = carrinhoManager.precoEntraga;
+    final totalPreco = carrinhoManager.totalPreco;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -31,12 +33,24 @@ class PrecoCard extends StatelessWidget {
               ],
             ),
             const Divider(),
+            if(precoEntrega != null)
+              ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Entraga'),
+                    Text('R\$ ${precoEntrega.toStringAsFixed(2)}'),
+                  ],
+                ),
+                const Divider(),
+
+              ],
             const SizedBox(height: 12,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Total', style: TextStyle(fontWeight: FontWeight.w500),),
-                Text('R\$ ${precoProdutos.toStringAsFixed(2)}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                Text('R\$ ${totalPreco.toStringAsFixed(2)}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
               ],
             ),
             const SizedBox(height: 8,),

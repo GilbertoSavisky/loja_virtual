@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualgigabyte/common/custon_drawer/empty_card.dart';
+import 'package:lojavirtualgigabyte/common/custon_drawer/login_card.dart';
 import 'package:lojavirtualgigabyte/common/custon_drawer/preco_card.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/screens/carrinho/componentes/carrinho_tile.dart';
@@ -14,6 +16,15 @@ class CarrinhoScreen extends StatelessWidget {
       ),
       body: Consumer<CarrinhoManager>(
         builder: (_, carrinhoManger, __){
+          if(carrinhoManger.user == null){
+            return LoginCard();
+          }
+          if(carrinhoManger.itens.isEmpty){
+            return EmptyCard(
+              iconData: Icons.remove_shopping_cart,
+              title: 'Seu carrinho está vazio!',
+            );
+          }
           return ListView(
             children: [
               Column(

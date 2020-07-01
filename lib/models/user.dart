@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lojavirtualgigabyte/models/endereco.dart';
 
 class User{
 
@@ -10,6 +11,7 @@ class User{
   String senha;
   String confirmSenha;
   bool admin = false;
+  Endereco endereco;
 
   DocumentReference get firestoreRef => Firestore.instance.document('users/$id');
   CollectionReference get carrinhoRef => firestoreRef.collection('carrinho');
@@ -18,6 +20,9 @@ class User{
     id = doc.documentID;
     nome = doc.data['nome'] as String;
     email = doc.data['email']as String;
+    if(doc.data.containsKey('endereco')){
+      endereco = Endereco.fromMap(doc.data['endereco'] as Map<String, dynamic>);
+    }
   }
   Future<void> saveData()async{
     await firestoreRef.setData(toMap());
@@ -27,6 +32,13 @@ class User{
     return {
       'nome': nome,
       'email': email,
+      if(endereco != null)
+        'endereco': endereco.toMap(),
     };
+  }
+
+  void setEndereco(Endereco endereco){
+    this.endereco = endereco;
+    saveData();
   }
 }

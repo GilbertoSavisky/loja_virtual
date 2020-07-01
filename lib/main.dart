@@ -7,6 +7,7 @@ import 'package:lojavirtualgigabyte/models/produto_manager.dart';
 import 'package:lojavirtualgigabyte/models/user_manager.dart';
 import 'package:lojavirtualgigabyte/screens/base/base_screen.dart';
 import 'package:lojavirtualgigabyte/screens/carrinho/carrinho_screen.dart';
+import 'package:lojavirtualgigabyte/screens/checkout/checkout_screen.dart';
 import 'package:lojavirtualgigabyte/screens/editar_produto/editar_produto_screen.dart';
 import 'package:lojavirtualgigabyte/screens/enderecos/endereco_screen.dart';
 import 'package:lojavirtualgigabyte/screens/login/login_screen.dart';
@@ -77,6 +78,10 @@ class MyApp extends StatelessWidget {
             case '/endereco':
               return MaterialPageRoute(
                   builder: (_) => EnderecoScreen()
+              );
+            case '/checkout':
+              return MaterialPageRoute(
+                  builder: (_) => CheckOutScreen()
               );
             case '/editar_produto':
               return MaterialPageRoute(
