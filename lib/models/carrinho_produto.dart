@@ -4,7 +4,7 @@ import 'package:lojavirtualgigabyte/models/item_tamanho.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 
 class CarrinhoProduto extends ChangeNotifier{
-  CarrinhoProduto.fromProduto(this.produto){
+  CarrinhoProduto.fromProduto(this._produto){
     produtoId = produto.id;
     quantidade = 1;
     tamanho = produto.tamanhoSelecionado.nome;
@@ -18,7 +18,6 @@ class CarrinhoProduto extends ChangeNotifier{
     
     firestore.document('produtos/$produtoId').get().then((value) {
       produto = Produto.fromDocumento(value);
-      notifyListeners();
     });
   }
 
@@ -28,7 +27,14 @@ class CarrinhoProduto extends ChangeNotifier{
   int quantidade;
   String tamanho;
 
-  Produto produto;
+  Produto _produto;
+
+  Produto get produto => _produto;
+
+  set produto(Produto produto){
+    _produto = produto;
+    notifyListeners();
+  }
 
   ItemTamanho get itemTamanho {
     if(produto == null) return null;

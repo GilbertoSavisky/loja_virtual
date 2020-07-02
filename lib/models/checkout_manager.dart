@@ -14,10 +14,11 @@ class CheckoutManager extends ChangeNotifier {
     this.cartManager = cartManager;
   }
 
-  Future<void> checkout() async {
+  Future<void> checkout({Function onEstoqueFail}) async {
     try {
       await _decrementStock();
     } catch (e){
+      onEstoqueFail(e);
       debugPrint(e.toString());
     }
 
