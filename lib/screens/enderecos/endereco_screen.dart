@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/preco_card.dart';
+import 'package:lojavirtualgigabyte/common/preco_card.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/screens/enderecos/componentes/endereco_card.dart';
 import 'package:provider/provider.dart';

@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 class Produto extends ChangeNotifier {
 
-  Produto({this.id, this.nome, this.descricao, this.tamanhos, this.imagens}){
+  Produto({this.id, this.nome, this.descricao, this.tamanhos, this.imagens, this.deletado = false}){
     imagens = imagens ?? [];
     tamanhos = tamanhos ?? [];
   }
@@ -17,6 +17,7 @@ class Produto extends ChangeNotifier {
     id = documento.documentID;
     nome = documento['nome'] as String;
     descricao = documento['descricao'] as String;
+    deletado = (documento['deletado'] ?? false) as bool;
     imagens =  List<String>.from(documento.data['imagens'] as List<dynamic> ?? []);
     tamanhos =  (documento.data['tamanhos'] as List<dynamic>).map((t) => ItemTamanho.fromMap(t as Map<String, dynamic>)).toList();
   }
@@ -28,6 +29,7 @@ class Produto extends ChangeNotifier {
   List<ItemTamanho> tamanhos;
   List<dynamic> novasImagens;
   ItemTamanho _tamanhoSelecionado;
+  bool deletado;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -64,12 +66,12 @@ class Produto extends ChangeNotifier {
   DocumentReference get firestoreRef => firestore.document('produtos/$id');
   StorageReference get storageRef => firebaseStorage.ref().child('produtos').child(id);
 
-  bool get temEstoque => totalEstoque > 0;
+  bool get temEstoque => totalEstoque > 0 && !deletado;
 
   num get precoBase {
     num menorPreco = double.infinity;
     for(final tamanho in tamanhos){
-      if(tamanho.preco < menorPreco && tamanho.temEstoque){
+      if(tamanho.preco < menorPreco){
         menorPreco = tamanho.preco;
       }
     }
@@ -82,7 +84,8 @@ class Produto extends ChangeNotifier {
       nome: nome,
       descricao: descricao,
       imagens: List.from(imagens),
-      tamanhos: tamanhos.map((tamanho) => tamanho.clone()).toList()
+      tamanhos: tamanhos.map((tamanho) => tamanho.clone()).toList(),
+      deletado: deletado
     );
   }
 
@@ -96,6 +99,7 @@ class Produto extends ChangeNotifier {
       'nome': nome,
       'descricao': descricao,
       'tamanhos': exportarListaTamanhos(),
+      'deletado': deletado
     };
 
     if(id == null){
@@ -121,7 +125,7 @@ class Produto extends ChangeNotifier {
     }
 
     for(final imagem in imagens){
-      if(!novasImagens.contains(imagem)){
+      if(!novasImagens.contains(imagem) && imagem.contains('firebase')){
         try {
           final ref = await firebaseStorage.getReferenceFromUrl(imagem);
           await ref.delete();
@@ -134,6 +138,10 @@ class Produto extends ChangeNotifier {
     await firestoreRef.updateData({'imagens': updateImagens});
     imagens = updateImagens;
     loading = false;
+  }
+
+  void delete() {
+    firestoreRef.updateData({'deletado': true});
   }
 
 }

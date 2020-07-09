@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/empty_card.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/login_card.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/preco_card.dart';
+import 'package:lojavirtualgigabyte/common/empty_card.dart';
+import 'package:lojavirtualgigabyte/common/login_card.dart';
+import 'package:lojavirtualgigabyte/common/preco_card.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/screens/carrinho/componentes/carrinho_tile.dart';
 import 'package:provider/provider.dart';

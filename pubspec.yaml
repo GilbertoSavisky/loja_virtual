@@ -21,6 +21,9 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  gallery_saver: ^2.0.1
+  screenshot: ^0.2.0
+  sliding_up_panel: ^1.0.2
   geolocator: ^5.3.2+2
   brasil_fields: ^0.2.0
   dio: ^3.0.9

@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/custom_icon_button.dart';
+import 'package:lojavirtualgigabyte/common/custom_icon_button.dart';
 import 'package:lojavirtualgigabyte/models/item_tamanho.dart';
 
 class EditItemTamanho extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/custom_icon_button.dart';
+import 'package:lojavirtualgigabyte/common/custom_icon_button.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/models/endereco.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +65,7 @@ class _CepInputFieldState extends State<CepInputField> {
             onPressed: !carrinhoManager.loading ? () async {
               if(Form.of(context).validate()){
                 try {
-                  await context.read<CarrinhoManager>().getEndereco(
+                  context.read<CarrinhoManager>().getEndereco(
                       cepController.text);
                 } catch(e){
                   Scaffold.of(context).showSnackBar(

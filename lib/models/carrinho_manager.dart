@@ -99,6 +99,14 @@ class CarrinhoManager extends ChangeNotifier {
     return true;
   }
 
+  void clear(){
+    for(final carProduto in itens){
+      user.carrinhoRef.document(carProduto.id).delete();
+    }
+    itens.clear();
+    notifyListeners();
+  }
+
   bool get isEnderecoValido => endereco != null && precoEntraga != null;
 
   // Endereço
@@ -145,6 +153,8 @@ class CarrinhoManager extends ChangeNotifier {
     precoEntraga = null;
     notifyListeners();
   }
+
+
 
   Future<bool> calcularEntrega(double lat, double long) async {
      final DocumentSnapshot doc = await firestore.document('aux/entrega').get();

@@ -83,7 +83,7 @@ class Secao extends ChangeNotifier {
     }
 
     for(final original in itensOriginais){
-      if(!itens.contains(original)){
+      if(!itens.contains(original) && (original.image as String).contains('firebase')){
         try {
           final ref = await storage.getReferenceFromUrl(
               original.image as String);
@@ -113,10 +113,13 @@ class Secao extends ChangeNotifier {
   Future<void> delete() async {
     await firestoreRef.delete();
     for(final item in itens){
-      try {
-        final ref = await storage.getReferenceFromUrl(item.image as String);
-        await ref.delete();
-      } catch (e){}
+      if((item.image as String).contains('firebase')){
+        try {
+          final ref = await storage.getReferenceFromUrl(item.image as String);
+          await ref.delete();
+        } catch (e){}
+
+      }
     }
   }
 

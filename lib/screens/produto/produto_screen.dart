@@ -27,7 +27,7 @@ class ProdutoScreen extends StatelessWidget {
           actions: [
             Consumer<UserManager>(
               builder: (_, userManager, __){
-                if(userManager.adminHabilitado){
+                if(userManager.adminHabilitado && !produto.deletado){
                   return IconButton(
                     icon: Icon(FontAwesome5.edit),
                     onPressed: (){
@@ -78,9 +78,10 @@ class ProdutoScreen extends StatelessWidget {
                     child: Stack(
                       overflow: Overflow.clip,
                       children: [
-                        FlatButton(
-                          child: Text('mais'),//TODO: implementar ler mais
-                        ),
+//                        FlatButton(
+//                          child: Text('mais'),//TODO: implementar ler mais
+//                          onPressed: (){},
+//                        ),
                         Container(
                           child: Text(produto.descricao,
                             style: TextStyle(fontSize: 16),
@@ -91,17 +92,32 @@ class ProdutoScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16, bottom: 8),
-                    child: Text('Tamanhos', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
-                  ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: produto.tamanhos.map((t) =>
-                      TamanhoWidget(tamanho: t),
-                    ).toList(),
-                  ),
+                  if(produto.deletado)
+                    Padding(
+                      padding: EdgeInsets.only(top: 16, bottom: 8),
+                      child: Text('Este produto não esta mais disponível',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          color: Colors.red[800]
+                        ),
+                      ),
+                    )
+                  else
+                    ...[
+                      Padding(
+                      padding: EdgeInsets.only(top: 16, bottom: 8),
+                      child: Text('Tamanhos', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
+                    ),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: produto.tamanhos.map((t) =>
+                            TamanhoWidget(tamanho: t),
+                        ).toList(),
+                      ),
+                    ],
+
                   const SizedBox(
                     height: 20,
                   ),

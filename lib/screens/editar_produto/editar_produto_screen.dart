@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/models/produto_manager.dart';
+import 'package:lojavirtualgigabyte/screens/editar_produto/componentes/delete_produto_dialogo.dart';
 import 'package:lojavirtualgigabyte/screens/editar_produto/componentes/imagens_form.dart';
 import 'package:lojavirtualgigabyte/screens/editar_produto/componentes/tamanho_form.dart';
 import 'package:provider/provider.dart';
 
-class EditarProduto extends StatelessWidget {
+class EditarProdutoScreen extends StatelessWidget {
 
   final Produto produto;
 
-  EditarProduto(Produto p) :
+  EditarProdutoScreen(Produto p) :
         editando = p != null,
         produto = p != null ? p.clone() : Produto();
 
@@ -27,6 +28,18 @@ class EditarProduto extends StatelessWidget {
         appBar: AppBar(
           title: Text(editando ? 'Editar Produto' : 'Criar Produto'),
           centerTitle: true,
+          actions: [
+            if(editando)
+              IconButton(
+                onPressed: () async {
+                  await showDialog(context: context,
+                      builder: (_) => DeleteProdutoDialogo(produto: produto,),
+                  );
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.delete),
+              ),
+          ],
         ),
         backgroundColor: Colors.white,
         body: Form(
@@ -47,6 +60,7 @@ class EditarProduto extends StatelessWidget {
                       ),
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                       maxLines: 2,
+                      // ignore: missing_return
                       validator: (nome){
                         if(nome.length < 6)
                           return 'Título muito curto';

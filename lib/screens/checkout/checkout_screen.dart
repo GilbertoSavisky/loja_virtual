@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/preco_card.dart';
+import 'package:lojavirtualgigabyte/common/preco_card.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/models/checkout_manager.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +22,22 @@ class CheckOutScreen extends StatelessWidget {
         key: scaffoldKey,
         body: Consumer<CheckoutManager>(
           builder: (_, checkOutManager, __){
+            if(checkOutManager.loading){
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.white),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text('Processando seu pagamento...', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 16),)
+                  ],
+                ),
+              );
+            }
             return ListView(
               children: [
                 PrecoCard(
@@ -36,6 +52,10 @@ class CheckOutScreen extends StatelessWidget {
                           )
                         );
                         Navigator.of(context).popUntil((route) => route.settings.name == '/carrinho');
+                      },
+                      onSuccess: (pedido){
+                        Navigator.of(context).popUntil((route) => route.settings.name == '/');
+                        Navigator.of(context).pushNamed('/confirmacao', arguments: pedido);
                       }
                     );
                   },

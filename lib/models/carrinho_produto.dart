@@ -21,11 +21,23 @@ class CarrinhoProduto extends ChangeNotifier{
     });
   }
 
+  CarrinhoProduto.fromMap(Map<String, dynamic> map){
+    produtoId = map['produtoId'] as String;
+    quantidade = map['quantidade'] as int;
+    tamanho = map['tamanho'] as String;
+    fixedPreco = map['fixedPreco'] as num;
+
+    firestore.document('produtos/$produtoId').get().then((value) {
+      produto = Produto.fromDocumento(value);
+    });
+  }
+
   final Firestore firestore = Firestore.instance;
   String id;
   String produtoId;
   int quantidade;
   String tamanho;
+  num fixedPreco;
 
   Produto _produto;
 
@@ -56,6 +68,15 @@ class CarrinhoProduto extends ChangeNotifier{
     };
   }
 
+  Map<String, dynamic> toPedidoItemMap(){
+    return{
+      'produtoId': produtoId,
+      'quantidade': quantidade,
+      'tamanho': tamanho,
+      'fixedPreco': fixedPreco ?? precoUnico
+    };
+  }
+
   bool podeJuntarItem(Produto produto){
     return produto.id == produtoId && produto.tamanhoSelecionado.nome == tamanho;
   }
@@ -70,9 +91,10 @@ class CarrinhoProduto extends ChangeNotifier{
   }
 
   bool get temEstoque {
+    if(produto != null && produto.deletado)
+      return false;
     final tamanho = itemTamanho;
     if(tamanho == null) return false;
     return tamanho.estoque >= quantidade;
   }
-
 }

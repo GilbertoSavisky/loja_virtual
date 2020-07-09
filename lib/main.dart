@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualgigabyte/models/admin_pedidos_manager.dart';
 import 'package:lojavirtualgigabyte/models/admin_users_manager.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/models/home_manager.dart';
+import 'package:lojavirtualgigabyte/models/pedido.dart';
+import 'package:lojavirtualgigabyte/models/pedidos_manager.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/models/produto_manager.dart';
 import 'package:lojavirtualgigabyte/models/user_manager.dart';
 import 'package:lojavirtualgigabyte/screens/base/base_screen.dart';
 import 'package:lojavirtualgigabyte/screens/carrinho/carrinho_screen.dart';
 import 'package:lojavirtualgigabyte/screens/checkout/checkout_screen.dart';
+import 'package:lojavirtualgigabyte/screens/confirmacao/confirmacao_screen.dart';
 import 'package:lojavirtualgigabyte/screens/editar_produto/editar_produto_screen.dart';
 import 'package:lojavirtualgigabyte/screens/enderecos/endereco_screen.dart';
 import 'package:lojavirtualgigabyte/screens/login/login_screen.dart';
@@ -41,12 +45,23 @@ class MyApp extends StatelessWidget {
           create: (_) => CarrinhoManager(),
           lazy: false,
           update: (_, userManager, carrinhoManager) =>
-            carrinhoManager..updateUser(userManager),
+          carrinhoManager..updateUser(userManager),
+        ),
+        ChangeNotifierProxyProvider<UserManager, PedidosManager>(
+          create: (_) => PedidosManager(),
+          lazy: false,
+          update: (_, userManager, pedidosManager) =>
+          pedidosManager..updateUser(userManager.user),
         ),
         ChangeNotifierProxyProvider<UserManager, AdminUsersManager>(
           create: (_) => AdminUsersManager(),
           lazy: false,
-          update: (_, userMamanger, adminUsersManager) => adminUsersManager..updateUser(userMamanger),
+          update: (_, userManager, adminUsersManager) => adminUsersManager..updateUser(userManager),
+        ),
+        ChangeNotifierProxyProvider<UserManager, AdminPedidosManager>(
+          create: (_) => AdminPedidosManager(),
+          lazy: false,
+          update: (_, userManager, adminProdutosManager) => adminProdutosManager..updateAdmin(adminHabilitade: userManager.adminHabilitado),
         ),
       ],
       child: MaterialApp(
@@ -60,7 +75,6 @@ class MyApp extends StatelessWidget {
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: '/base',
         onGenerateRoute: (settings){
           switch(settings.name){
             case '/login':
@@ -74,11 +88,17 @@ class MyApp extends StatelessWidget {
             case '/carrinho':
               return MaterialPageRoute(
                   builder: (_) => CarrinhoScreen(),
-                settings: settings
+                  settings: settings
               );
             case '/endereco':
               return MaterialPageRoute(
                   builder: (_) => EnderecoScreen()
+              );
+            case '/confirmacao':
+              return MaterialPageRoute(
+                  builder: (_) => ConfirmacaoScreen(
+                    settings.arguments as Pedido
+                  )
               );
             case '/checkout':
               return MaterialPageRoute(
@@ -86,7 +106,7 @@ class MyApp extends StatelessWidget {
               );
             case '/editar_produto':
               return MaterialPageRoute(
-                  builder: (_) => EditarProduto(settings.arguments as Produto)
+                  builder: (_) => EditarProdutoScreen(settings.arguments as Produto)
               );
             case '/selecionar_produto':
               return MaterialPageRoute(
@@ -96,10 +116,11 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (_) => ProdutoScreen(settings.arguments as Produto)
               );
-            case '/base':
+            case '/':
             default:
               return MaterialPageRoute(
-                  builder: (_) => BaseScreen()
+                builder: (_) => BaseScreen(),
+                settings: settings
               );
           }
         },

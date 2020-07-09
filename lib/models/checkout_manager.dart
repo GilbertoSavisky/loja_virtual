@@ -1,11 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
+import 'package:lojavirtualgigabyte/models/pedido.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 
 class CheckoutManager extends ChangeNotifier {
 
   CarrinhoManager cartManager;
+
+  bool _loading = false;
+
+  bool get loading => _loading;
+
+  set loading(bool valor){
+    _loading = valor;
+    notifyListeners();
+  }
 
   final Firestore firestore = Firestore.instance;
 
@@ -14,25 +24,35 @@ class CheckoutManager extends ChangeNotifier {
     this.cartManager = cartManager;
   }
 
-  Future<void> checkout({Function onEstoqueFail}) async {
+  Future<void> checkout({Function onEstoqueFail, Function onSuccess}) async {
+    loading = true;
     try {
       await _decrementStock();
     } catch (e){
       onEstoqueFail(e);
-      debugPrint(e.toString());
+      loading = false;
+      return;
     }
+    final orderId = await _getOrderId();
 
-    _getOrderId().then((value) => print(value));
+    final order = Pedido.fromCarrinhoManager(cartManager);
+    order.orderId = orderId.toString();
+
+    await order.save();
+
+    cartManager.clear();
+    onSuccess(order);
+    loading = false;
   }
 
   Future<int> _getOrderId() async {
-    final ref = firestore.document('aux/ordercounter');
+    final ref = firestore.document('aux/contpedido');
 
     try {
       final result = await firestore.runTransaction((tx) async {
         final doc = await tx.get(ref);
-        final orderId = doc.data['current'] as int;
-        await tx.update(ref, {'current': orderId + 1});
+        final orderId = doc.data['corrente'] as int;
+        await tx.update(ref, {'corrente': orderId + 1});
         return {'orderId': orderId};
       });
       return result['orderId'] as int;
@@ -59,7 +79,7 @@ class CheckoutManager extends ChangeNotifier {
                   (p) => p.id == cartProduct.produtoId);
         } else {
           final doc = await tx.get(
-              firestore.document('products/${cartProduct.produtoId}')
+              firestore.document('produtos/${cartProduct.produtoId}')
           );
           product = Produto.fromDocumento(doc);
         }
@@ -81,8 +101,8 @@ class CheckoutManager extends ChangeNotifier {
       }
 
       for(final product in productsToUpdate){
-        tx.update(firestore.document('products/${product.id}'),
-            {'sizes': product.exportarListaTamanhos()});
+        tx.update(firestore.document('produtos/${product.id}'),
+            {'tamanhos': product.exportarListaTamanhos()});
       }
     });
   }

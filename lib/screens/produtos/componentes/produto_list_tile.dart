@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 
@@ -14,6 +15,7 @@ class ProdutoListTile extends StatelessWidget {
         Navigator.of(context).pushNamed('/produto', arguments: produto);
       },
       child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),
@@ -37,7 +39,15 @@ class ProdutoListTile extends StatelessWidget {
                       padding: EdgeInsets.only(top: 4),
                       child: Text('A partir de', style: TextStyle(fontSize: 12, color: Colors.grey[400]),),
                     ),
-                    Text('R\$ ${produto.precoBase}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor),)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('R\$ ${produto.precoBase}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor),),
+                        if(!produto.temEstoque)
+                          Text('Sem estoque', style: TextStyle(color: Colors.red[800], fontSize: 11),)
+                      ],
+                    ),
+
                   ],
                 ),
               ),

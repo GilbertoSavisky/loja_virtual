@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:lojavirtualgigabyte/common/custon_drawer/custom_icon_button.dart';
+import 'package:lojavirtualgigabyte/common/custom_icon_button.dart';
 import 'package:lojavirtualgigabyte/models/item_tamanho.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
 import 'package:lojavirtualgigabyte/screens/editar_produto/componentes/edit_item_tamanho.dart';
