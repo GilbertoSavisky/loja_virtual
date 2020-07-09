@@ -47,5 +47,27 @@
 	<string>Acessar a camera para adicionar imagem</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Acessar a camera para adicionar imagem</string>
+
+	<key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb1071819963216292</string>
+      </array>
+      </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1071819963216292</string>
+    <key>FacebookDisplayName</key>
+    <string>Loja de Peças Intimas</string>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>

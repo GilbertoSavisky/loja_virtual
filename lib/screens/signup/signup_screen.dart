@@ -80,51 +80,48 @@ class SignUpScreen extends StatelessWidget {
                       onSaved: (confirmeSenha) => user.confirmSenha = confirmeSenha,
                     ),
                     const SizedBox(height: 16,),
-                    SizedBox(
-                      height: 44,
-                      child: RaisedButton(
-                        color: Theme.of(context).primaryColor,
-                        disabledColor: Theme.of(context).primaryColor
-                            .withAlpha(100),
-                        textColor: Colors.white,
-                        onPressed: userManager.loading ? null : (){
-                          if(formKey.currentState.validate()){
-                            formKey.currentState.save();
-                            if(user.senha != user.confirmSenha){
-                              scaffoldKey.currentState.showSnackBar(
-                                  SnackBar(
-                                    content: const Text('Senhas não coincidem!'),
-                                    backgroundColor: Colors.red,
-                                  )
-                              );
-                              return;
-                            }
-                            userManager.signUp(
-                                user: user,
-                                onFail: (e){
-                                  scaffoldKey.currentState.showSnackBar(
-                                      SnackBar(
-                                        content: Text('Falha ao cadastrar: $e'),
-                                        backgroundColor: Colors.red,
-                                      )
-                                  );
-
-                                },
-                                onSuccess: (){
-                                  Navigator.of(context).pop();
-                                }
+                    RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      disabledColor: Theme.of(context).primaryColor
+                          .withAlpha(100),
+                      textColor: Colors.white,
+                      onPressed: userManager.loading ? null : (){
+                        if(formKey.currentState.validate()){
+                          formKey.currentState.save();
+                          if(user.senha != user.confirmSenha){
+                            scaffoldKey.currentState.showSnackBar(
+                                SnackBar(
+                                  content: const Text('Senhas não coincidem!'),
+                                  backgroundColor: Colors.red,
+                                )
                             );
+                            return;
                           }
-                        },
-                        child: userManager.loading ?
-                          CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                          ) :
-                        const Text(
-                          'Criar Conta',
-                          style: TextStyle(
-                              fontSize: 18
-                          ),
+                          userManager.signUp(
+                              user: user,
+                              onFail: (e){
+                                scaffoldKey.currentState.showSnackBar(
+                                    SnackBar(
+                                      content: Text('Falha ao cadastrar: $e'),
+                                      backgroundColor: Colors.red,
+                                    )
+                                );
+
+                              },
+                              onSuccess: (){
+                                Navigator.of(context).pop();
+                              }
+                          );
+                        }
+                      },
+                      child: userManager.loading ?
+                        CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.white),
+                        ) :
+                      const Text(
+                        'Criar Conta',
+                        style: TextStyle(
+                            fontSize: 15
                         ),
                       ),
                     )
