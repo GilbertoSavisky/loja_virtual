@@ -3,6 +3,7 @@ import 'package:lojavirtualgigabyte/models/admin_pedidos_manager.dart';
 import 'package:lojavirtualgigabyte/models/admin_users_manager.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/models/home_manager.dart';
+import 'package:lojavirtualgigabyte/models/lojas_manager.dart';
 import 'package:lojavirtualgigabyte/models/pedido.dart';
 import 'package:lojavirtualgigabyte/models/pedidos_manager.dart';
 import 'package:lojavirtualgigabyte/models/produto.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => UserManager(),
           lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LojasManager(),
         ),
         ChangeNotifierProvider(
           create: (_) => ProdutoManager(),
