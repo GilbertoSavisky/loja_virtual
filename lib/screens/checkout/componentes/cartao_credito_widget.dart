@@ -1,9 +1,14 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:lojavirtualgigabyte/models/cartao_credito.dart';
 import 'package:lojavirtualgigabyte/screens/checkout/componentes/card_back.dart';
 import 'package:lojavirtualgigabyte/screens/checkout/componentes/card_front.dart';
 
 class CartaoCreditoWidget extends StatelessWidget {
+
+  CartaoCreditoWidget(this.cartaoCredito);
+
+  final CartaoCredito cartaoCredito;
 
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
 
@@ -25,16 +30,18 @@ class CartaoCreditoWidget extends StatelessWidget {
             speed: 700,
             flipOnTouch: false,
             front: CardFront(
-                numFocus: numFocus,
-                dataFocus: dataFocus,
-                nomeFocus: nomeFocus,
+              cartaoCredito: cartaoCredito,
+              numFocus: numFocus,
+              dataFocus: dataFocus,
+              nomeFocus: nomeFocus,
               finish: (){
                 cardKey.currentState.toggleCard();
                 cvvFocus.requestFocus();
               },
             ),
             back: CardBack(
-              cvvFocus: cvvFocus
+                cartaoCredito: cartaoCredito,
+                cvvFocus: cvvFocus
             ),
           ),
           FlatButton(

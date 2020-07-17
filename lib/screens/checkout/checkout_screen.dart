@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualgigabyte/common/preco_card.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
+import 'package:lojavirtualgigabyte/models/cartao_credito.dart';
 import 'package:lojavirtualgigabyte/models/checkout_manager.dart';
 import 'package:lojavirtualgigabyte/screens/checkout/componentes/cartao_credito_widget.dart';
+import 'package:lojavirtualgigabyte/screens/checkout/componentes/cpf_field.dart';
 import 'package:provider/provider.dart';
 
 class CheckOutScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final CartaoCredito cartaoCredito = CartaoCredito();
 
   @override
   Widget build(BuildContext context) {
@@ -45,27 +48,38 @@ class CheckOutScreen extends StatelessWidget {
               key: formKey,
               child: ListView(
                 children: [
-                  CartaoCreditoWidget(),
+                  CartaoCreditoWidget(cartaoCredito),
+                  CpfField(),
                   PrecoCard(
                     onPressed: (){
                       if(formKey.currentState.validate()){
-                        print('enviar');
-//                        checkOutManager.checkout(
-//                            onEstoqueFail: (e){
-//                              scaffoldKey.currentState.showSnackBar(
-//                                  SnackBar(
-//                                    content: Text('Não há estoque suficiente'),
-//                                    backgroundColor: Colors.red[800],
-//                                    duration: Duration(seconds: 2),
-//                                  )
-//                              );
-//                              Navigator.of(context).popUntil((route) => route.settings.name == '/carrinho');
-//                            },
-//                            onSuccess: (pedido){
-//                              Navigator.of(context).popUntil((route) => route.settings.name == '/');
-//                              Navigator.of(context).pushNamed('/confirmacao', arguments: pedido);
-//                            }
-//                        );
+                        formKey.currentState.save();
+                        checkOutManager.checkout(
+                            cartaoCredito: cartaoCredito,
+                            onEstoqueFail: (e){
+                              scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(
+                                    content: Text('Não há estoque suficiente'),
+                                    backgroundColor: Colors.red[800],
+                                    duration: Duration(seconds: 2),
+                                  )
+                              );
+                              Navigator.of(context).popUntil((route) => route.settings.name == '/carrinho');
+                            },
+                            onPayFail: (e){
+                              scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(
+                                    content: Text('$e'),
+                                    backgroundColor: Colors.red[800],
+                                  )
+                              );
+                            },
+                            onSuccess: (pedido){
+                              print('---------  ${pedido}');
+                              Navigator.of(context).popUntil((route) => route.settings.name == '/');
+                              Navigator.of(context).pushNamed('/confirmacao', arguments: pedido);
+                            }
+                        );
                       }
 
                     },

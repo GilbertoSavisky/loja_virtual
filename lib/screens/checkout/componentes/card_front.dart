@@ -3,17 +3,19 @@ import 'package:credit_card_type_detector/credit_card_type_detector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lojavirtualgigabyte/models/cartao_credito.dart';
 import 'package:lojavirtualgigabyte/screens/checkout/componentes/card_text_field.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CardFront extends StatelessWidget {
 
-  CardFront({Key key, this.numFocus, this.nomeFocus, this.dataFocus, this.finish}) : super(key: key);
+  CardFront({Key key, this.numFocus, this.nomeFocus, this.dataFocus, this.finish, this.cartaoCredito}) : super(key: key);
 
   final FocusNode numFocus;
   final FocusNode dataFocus;
   final FocusNode nomeFocus;
   final VoidCallback finish;
+  final CartaoCredito cartaoCredito;
 
   final dataFormatter = MaskTextInputFormatter(
     mask: '!#/-###', filter: {'#': RegExp('[0-9]'), '!': RegExp('[0-1]'), '-': RegExp('[2]')}
@@ -28,7 +30,7 @@ class CardFront extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(24),
         height: 200,
-        color: Colors.deepPurpleAccent,
+        color: Colors.pink[900],
         child: Row(
           children: [
             Expanded(
@@ -36,6 +38,7 @@ class CardFront extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CardTextField(
+                    valorInicial: cartaoCredito.numero,
                     titulo: 'Número',
                     hint: '0000-0000-0000-0000',
                     tipoInput: TextInputType.number,
@@ -44,6 +47,7 @@ class CardFront extends StatelessWidget {
                       WhitelistingTextInputFormatter.digitsOnly,
                       CartaoBancarioInputFormatter()
                     ],
+                    onSaved: cartaoCredito.setNumero,
                     focusNode: numFocus,
                     onSubmitted: (_){
                       dataFocus.requestFocus();
@@ -58,6 +62,7 @@ class CardFront extends StatelessWidget {
                     },
                   ),
                   CardTextField(
+                    valorInicial: cartaoCredito.dataValidade,
                     titulo: 'Validade',
                     hint: '01/2020',
                     tipoInput: TextInputType.number,
@@ -66,6 +71,7 @@ class CardFront extends StatelessWidget {
                       nomeFocus.requestFocus();
                     },
                     focusNode: dataFocus,
+                    onSaved: cartaoCredito.setDataValidade,
                     inputFormaters: [
                       dataFormatter
                     ],
@@ -76,6 +82,7 @@ class CardFront extends StatelessWidget {
                     },
                   ),
                   CardTextField(
+                      valorInicial: cartaoCredito.titular,
                     titulo: 'Titular',
                     hint: 'Nome Completo',
                     tipoInput: TextInputType.text,
@@ -84,6 +91,7 @@ class CardFront extends StatelessWidget {
                       finish();
                     },
                     focusNode: nomeFocus,
+                    onSaved: cartaoCredito.setTitular,
                     validator: (nome){
                       if(nome.isEmpty)
                         return 'Inválido';

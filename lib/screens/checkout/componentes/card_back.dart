@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lojavirtualgigabyte/models/cartao_credito.dart';
 import 'package:lojavirtualgigabyte/screens/checkout/componentes/card_text_field.dart';
 
 class CardBack extends StatelessWidget {
 
   final FocusNode cvvFocus;
+  final CartaoCredito cartaoCredito;
 
-  const CardBack({Key key, this.cvvFocus}) : super(key: key);
+  const CardBack({Key key, this.cvvFocus, this.cartaoCredito}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class CardBack extends StatelessWidget {
       elevation: 16,
       child: Container(
         height: 200,
-        color: Colors.deepPurpleAccent,
+        color: Colors.pink[900],
         child: Column(
           children: [
             Container(
@@ -34,6 +36,7 @@ class CardBack extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                     color: Colors.grey[500],
                     child: CardTextField(
+                        valorInicial: cartaoCredito.codigoSeguranca,
                       hint: '123',
                       bold: false,
                       tipoInput: TextInputType.number,
@@ -43,6 +46,7 @@ class CardBack extends StatelessWidget {
                       inputFormaters: [
                         WhitelistingTextInputFormatter.digitsOnly,
                       ],
+                      onSaved: cartaoCredito.setCodigoSeguranca,
                       validator: (cvv){
                         if(cvv.isEmpty || cvv.length != 3)
                           return 'Inválido';

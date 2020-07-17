@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_manager.dart';
 import 'package:lojavirtualgigabyte/models/carrinho_produto.dart';
 import 'package:lojavirtualgigabyte/models/endereco.dart';
+import 'package:lojavirtualgigabyte/services/cielo_pagamento.dart';
 
 enum Status {CANCELADO, PREPARANDO, TRANSPORTANDO, ENTREGUE}
 
@@ -19,6 +21,7 @@ class Pedido {
     orderId = documento.documentID;
     preco = documento.data['preco'] as num;
     userId = documento.data['user'] as String;
+    payId = documento.data['payId'] as String;
     data = documento.data['data'] as Timestamp;
     status = Status.values[documento.data['status'] as int];
     endereco = Endereco.fromMap(documento.data['endereco'] as Map<String, dynamic>);
@@ -43,7 +46,8 @@ class Pedido {
         'user': userId,
         'endereco': endereco.toMap(),
         'status': status.index,
-        'data': Timestamp.now()
+        'data': Timestamp.now(),
+        'payId': payId
       }
     );
   }
@@ -64,10 +68,15 @@ class Pedido {
     } : null;
   }
 
-  void cancelar(){
-    status = Status.CANCELADO;
-    firestoreRef.updateData({'status': status.index});
-
+  Future<void> cancelar() async {
+    try {
+      await CieloPagamento().cancelar(payId);
+      status = Status.CANCELADO;
+      firestoreRef.updateData({'status': status.index});
+    } catch(e){
+      debugPrint('Erro ao Cancelar');
+      return Future.error('Falha ao cancelar');
+    }
   }
 
   List<CarrinhoProduto> items;
@@ -77,6 +86,7 @@ class Pedido {
   Endereco endereco;
   Timestamp data;
   Status status;
+  String payId;
 
   String get formattedId => '#${orderId.padLeft(6, '0')}';
 

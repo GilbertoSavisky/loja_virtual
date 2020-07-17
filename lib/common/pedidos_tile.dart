@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:lojavirtualgigabyte/common/custom_icon_button.dart';
 import 'package:lojavirtualgigabyte/common/pedido_produto_tile.dart';
 import 'package:lojavirtualgigabyte/models/pedido.dart';
-import 'package:lojavirtualgigabyte/screens/pedidos/cancelar_pedido_dialogo.dart';
-import 'package:lojavirtualgigabyte/screens/pedidos/export_endereco_dialogo.dart';
+import 'package:lojavirtualgigabyte/screens/pedidos/componentes/cancelar_pedido_dialogo.dart';
+import 'package:lojavirtualgigabyte/screens/pedidos/componentes/export_endereco_dialogo.dart';
 
 class PedidosTile extends StatelessWidget {
 
@@ -73,6 +72,7 @@ class PedidosTile extends StatelessWidget {
                       CustomIconButton(
                         onTap: (){
                           showDialog(context: context,
+                              barrierDismissible: false,
                               builder: (_) => CancelarPedidoDialogo(pedido: order,)
                           );
                         },

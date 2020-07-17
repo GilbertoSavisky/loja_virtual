@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualgigabyte/models/admin_pedidos_manager.dart';
 import 'package:lojavirtualgigabyte/models/admin_users_manager.dart';
@@ -21,7 +22,7 @@ import 'package:lojavirtualgigabyte/screens/selecionar_produto/selecionar_produt
 import 'package:lojavirtualgigabyte/screens/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main(){
   runApp(MyApp());
 }
 

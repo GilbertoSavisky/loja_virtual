@@ -9,6 +9,7 @@ class User{
   String nome;
   String email;
   String senha;
+  String cpf;
   String confirmSenha;
   bool admin = false;
   Endereco endereco;
@@ -20,6 +21,7 @@ class User{
     id = doc.documentID;
     nome = doc.data['nome'] as String;
     email = doc.data['email']as String;
+    cpf = doc.data['cpf']as String;
     if(doc.data.containsKey('endereco')){
       endereco = Endereco.fromMap(doc.data['endereco'] as Map<String, dynamic>);
     }
@@ -34,11 +36,18 @@ class User{
       'email': email,
       if(endereco != null)
         'endereco': endereco.toMap(),
+      if(cpf != null)
+        'cpf': cpf
     };
   }
 
   void setEndereco(Endereco endereco){
     this.endereco = endereco;
+    saveData();
+  }
+
+  void setCpf(String cpf){
+    this.cpf = cpf;
     saveData();
   }
 }
