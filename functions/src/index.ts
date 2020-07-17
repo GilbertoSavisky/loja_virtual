@@ -297,7 +297,67 @@ export const addMsg = functions.https.onCall(async(data, context) => {
   return{'sucesso': snapshot.id};
 });
 
-export const novoPedido = functions.firestore.document('pedidos/{pedidoId}').onCreate((snapshot, context ) => {
+export const novoPedido = functions.firestore.document('pedidos/{pedidoId}').onCreate( async (snapshot, context ) => {
   const pedidoId = context.params.pedidoId;
-  console.log(pedidoId);
+  
+  const querySnapshot = await admin.firestore().collection('admins').get();
+
+  const admins = querySnapshot.docs.map(doc => doc.id);
+
+  let adminsTokens: string[] = [];
+
+  for(let i =0; i < admins.length; i++){
+      const tokensAdmin: string[] = await getDeviceTokens(admins[i]);
+      adminsTokens = adminsTokens.concat(tokensAdmin);
+  }
+
+  await sendPushFCM(
+    adminsTokens,
+    'Novo Pedido',
+    'Nova venda realizada. Pedido: ' + pedidoId
+    )
 });
+
+const pedidoStatus = new Map([
+  [0, 'Cancelado'],
+  [1, 'em preparação'],
+  [2, 'em transporte'],
+  [3, 'entregue']
+]);
+
+export const onPedidoStatusChanged = functions.firestore.document('pedidos/{pedidoId}').onUpdate( async (snapshot, context) => {
+  const statusAntes = snapshot.before.data().status;
+  const statusDepois = snapshot.after.data().status;
+
+  if(statusAntes !== statusDepois){
+    const tokenUser = await getDeviceTokens(snapshot.after.data().user);
+
+    await sendPushFCM(
+      tokenUser,
+      'Novo status do pedido: ' + context.params.pedidoId,
+      'Status atualizado para:  ' + pedidoStatus.get(statusDepois)
+    )
+  }
+});
+
+async function getDeviceTokens(uid: string) {
+  const querySnapshot = await admin.firestore().collection('users').doc(uid).collection('tokens').get();
+  const tokens = querySnapshot.docs.map(doc => doc.id);
+  return tokens;
+}
+
+async function sendPushFCM(tokens: string[], titulo: string, mensagem: string){
+  if(tokens.length > 0) {
+    const payload = {
+      notification: {
+        title: titulo,
+        body: mensagem,
+        click_action: 'FLUTTER_NOTIFICATION_CLICK'
+      }
+    };
+    return admin.messaging().sendToDevice(tokens, payload);
+  }
+  else {
+    return
+  }
+}

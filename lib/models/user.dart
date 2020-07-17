@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:lojavirtualgigabyte/models/endereco.dart';
 
 class User{
@@ -16,6 +19,7 @@ class User{
 
   DocumentReference get firestoreRef => Firestore.instance.document('users/$id');
   CollectionReference get carrinhoRef => firestoreRef.collection('carrinho');
+  CollectionReference get tokenRef => firestoreRef.collection('tokens');
 
   User.fromDocument(DocumentSnapshot doc){
     id = doc.documentID;
@@ -49,5 +53,14 @@ class User{
   void setCpf(String cpf){
     this.cpf = cpf;
     saveData();
+  }
+
+  Future<void> saveToken() async {
+    final token = await FirebaseMessaging().getToken();
+    tokenRef.document(token).setData({
+      'token': token,
+      'updateAt': FieldValue.serverTimestamp(),
+      'plataforma': Platform.operatingSystem
+    });
   }
 }

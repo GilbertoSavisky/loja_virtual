@@ -56,6 +56,7 @@ class UserManager extends ChangeNotifier {
       user.id = result.user.uid;
       this.user = user;
       await user.saveData();
+      user.saveToken();
 
       onSuccess();
 
@@ -79,6 +80,7 @@ class UserManager extends ChangeNotifier {
     if(currentUser != null){
       final DocumentSnapshot docUser = await firestore.collection('users').document(currentUser.uid).get();
       user = User.fromDocument(docUser);
+      user.saveToken();
 
       final docAdmin = await Firestore.instance.collection('admins').document(user.id).get();
       if(docAdmin.exists){
@@ -105,6 +107,8 @@ class UserManager extends ChangeNotifier {
             email: firebaseUser.email,
           );
           await user.saveData();
+          user.saveToken();
+
           onSuccess();
         }
         break;
